@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+	<head>
+		<head th:replace="fragments/header :: head(${post.title})"></head>
+  	</head>
+	<body>
+	  	<div class="container">
+		    <div class="row">
+        		<div class="col-lg-8">
+          			<h1 class="mt-4" th:text="${post.title}"></h1>
+          			<hr/>
+          			<small class="text-muted" th:text="#{label.publication.date}"></small>
+          			<small th:text="${#dates.format(post.post.postDate,'dd/MM/yyyy')}"></small>
+          			<hr/>
+         			<img class="img-fluid rounded width-100" th:src="@{'/img/posts/' + ${post.post.image}}" th:alt="${post.title}" />
+					<hr/>
+					<article th:utext="${post.content}"></article>
+					<div class="row">
+						<div class="col-6" >
+							<a th:if="${previousPost != null}" th:href="@{${previousPost.url}}" class="btn btn-outline-secondary btn-blog" role="button" aria-pressed="true" th:text="${previousPost.title}"></a>
+						</div>
+						<div class="col-6 text-right" >
+							<a th:if="${previousNext != null}" th:href="@{${previousNext.url}}" class="btn btn-outline-secondary btn-blog" role="button" aria-pressed="true" th:text="${previousNext.title}"></a>
+						</div>
+					</div>
+          			<hr/>
+          			<div th:each="comment : ${post.post.comments}" class="media mb-4">
+            			<img class="d-flex mr-3 rounded-circle img-avatar" th:src="@{'/img/avatars/' + ${comment.image}}" th:alt="${comment.name}" />
+            			<div class="media-body">
+              				<h5 class="mt-0" th:text="${comment.name}"></h5>
+              				<div th:text="${comment.comment}"></div>
+            			</div>
+          			</div>
+ 				</div>
+        		<div class="col-md-4">
+          			<div class="card my-4">
+            			<h5 class="card-header" th:text="#{label.author}"></h5>
+            			<div class="card-body">
+              				<div>
+              					<img th:src="@{'/img/authors/' + ${post.post.author.image}}" th:alt="${post.post.author.nickname}" class="img-thumbnail mb-3 width-100"/>
+              				</div>
+              				<p class="text-center">
+              					<span th:text="${post.post.author.name}"></span>
+              				</p>
+            			</div>
+          			</div>
+ 				</div>
+ 			</div>
+    	</div>
+		<div th:replace="fragments/footer :: footer"></div>
+	</body>
+</html>

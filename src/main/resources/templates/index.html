@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+	<head>
+		<head th:replace="fragments/header :: head(#{label.home})"></head>
+  	</head>
+	<body>
+		<div class="container">
+			<h1 class="text-center mt-4 mb-4" th:text="#{label.home}"></h1>
+			<section class="row">
+				<article th:each="post : ${posts}" class="col-12 col-lg-4 col-sm-6 mb-3">
+					<div  th:each="postLanguage : ${post.postsLanguages}" th:if="${postLanguage.language} == #{language}" class="card">
+						<div class="card-header text-center" th:text="${postLanguage.title}"></div>
+						<div class="card-body">
+							<img th:src="@{'/img/posts/' + ${post.image}}" th:alt="${postLanguage.title}" class="img-thumbnail mb-3 img-index-post width-100"/>
+							<p th:text="${postLanguage.summary}"></p>
+							<a th:href="@{|post/${postLanguage.url}|}" th:text="#{label.read.more}" class="btn btn-outline-secondary btn-blog btn-block" role="button" aria-pressed="true"></a>
+						</div>
+						<div class="card-footer">
+      						<small class="text-muted" th:text="#{label.publication.date}"></small>
+      						<small class="text-muted" th:text="${#dates.format(post.postDate,'dd/MM/yyyy')}"></small>
+    					</div>
+					</div>
+				</article>
+			</section>
+	  	</div>
+	  	<div th:replace="fragments/footer :: footer"></div>
+	</body>
+</html>
